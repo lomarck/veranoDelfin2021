@@ -1,0 +1,102 @@
+<html>
+<header>
+	<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+
+	<script>
+		var Escala="0.5 0.5 0.5";
+		AFRAME.registerComponent('markerhandler', {
+	    	init: function () {
+	    		this.el.sceneEl.addEventListener('markerFound', () => {
+	        	// redirect to custom URL
+	        	//window.location = 'https://github.com/AR-js-org/AR.js';
+	        		console.log('Marcador Encontrado');
+	      		});
+	  		}
+		});
+
+		function Acercar(){
+			var entidad=document.getElementById('obj1');
+			var s=entidad.getAttribute('scale');
+			/*console.log("Anterior:");
+			console.log(s);*/
+			var ns=s;
+			ns.x=s.x-0.01;
+			ns.y=s.y-0.01;
+			ns.z=s.z-0.01;
+			entidad.setAttribute('scale', ns);
+
+			/*var s=entidad.getAttribute('scale');
+			console.log("Nuevo:");
+			console.log(s);*/
+		}
+
+		function Alejar(){
+			var entidad=document.getElementById('obj1');
+			var s=entidad.getAttribute('scale');
+			/*console.log("Anterior:");
+			console.log(s);*/
+			var ns=s;
+			ns.x=s.x+0.01;
+			ns.y=s.y+0.01;
+			ns.z=s.z+0.01;
+			entidad.setAttribute('scale', ns);
+
+			/*var s=entidad.getAttribute('scale');
+			console.log("Nuevo:");
+			console.log(s);*/
+		}
+	</script>
+	</script>
+	  <style>
+	    .buttons {
+	      position: absolute;
+	      bottom: 0;
+	      left: 0;
+	      width: 100%;
+	      height: 5em;
+	      display: flex;
+	      justify-content: center;
+	      align-items: center;
+	      z-index: 10;
+	    }
+
+	    .say-hi-button {
+	      padding: 0.25em;
+	      border-radius: 4px;
+	      border: none;
+	      background: white;
+	      color: black;
+	      width: 6em;
+	      height: 2em;
+	    }
+  </style>
+</header>
+<body>
+	<div class="buttons">
+      <button class="say-hi-button" id="zoomOut" onclick="Alejar();">Zoom-</button>
+      <button class="say-hi-button" id="zoomIn" onclick="Acercar();">Zoom+</button>
+    </div>
+	<a-scene arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
+		 <a-assets>
+		 	<!--
+		    <a-asset-item id="PS5_obj" src="Modelos/PS5.obj"></a-asset-item>
+		    <a-asset-item id="PS5_mtl" src="Modelos/PS5.mtl"></a-asset-item>
+		    <a-asset-item id="totoro" src="Modelos/models/model1/scene.gltf"></a-asset-item>
+			-->
+			<a-asset-item id="Con_obj" src="Modelos/Controller.obj"></a-asset-item>
+		    <a-asset-item id="Con_mtl" src="Modelos/Controller.mtl"></a-asset-item>			
+		</a-assets>|
+		<a-marker type='pattern' preset="hiro" markerhandler>
+			<a-entity id="obj1" position="0 0 0" scale="0.3 0.3 0.3">
+				<!--<a-entity position="0 0 0" scale="0.3 0.3 0.3" rotation="0 180 0">
+				<a-dodecahedron color="#FF926B" radius="1"></a-dodecahedron>
+				<a-obj-model src="#PS5_obj" mtl="#PS5_mtl"></a-obj-model>				
+				-->
+				<a-obj-model src="#Con_obj" mtl="#Con_mtl"></a-obj-model>
+			<a-entity>
+		</a-marker>
+		<a-entity camera></a-entity>
+	</a-scene>
+</body>
+</html>
