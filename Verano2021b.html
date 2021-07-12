@@ -1,0 +1,116 @@
+<html>
+<header>
+	<meta charset='utf-8'>
+	<!--script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script-->
+
+	<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
+        <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+        <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+        <script>
+
+		AFRAME.registerComponent('markerhandler', {
+	    	init: function () {
+	    		this.el.sceneEl.addEventListener('markerFound', () => {
+	        	// redirect to custom URL
+	        	//window.location = 'https://github.com/AR-js-org/AR.js';
+	        		console.log('Marcador Encontrado');
+	      		});
+	  		}
+		});
+
+		function Acercar(){
+			var entidad=document.getElementById('obj1');
+			var s=entidad.getAttribute('scale');
+			var ns=s;
+			ns.x=s.x-0.01;
+			ns.y=s.y-0.01;
+			ns.z=s.z-0.01;
+			entidad.setAttribute('scale', ns);
+		};
+
+		function Alejar(){
+			var entidad=document.getElementById('obj1');
+			var s=entidad.getAttribute('scale');
+			var ns=s;
+			ns.x=s.x+0.01;
+			ns.y=s.y+0.01;
+			ns.z=s.z+0.01;
+			entidad.setAttribute('scale', ns);
+
+		};
+
+		function getLocation() {
+            var x=document.getElementById("Coordenadas");
+            if (navigator.geolocation) {
+            	navigator.geolocation.getCurrentPosition(showPosition);
+            } 
+            else { 
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+            function showPosition(position) {
+                var x=document.getElementById("Coordenadas");
+                x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
+                console.log("Al inicio");
+                console.log("Latitude: " + position.coords.latitude + "; Longitude: " + position.coords.longitude);
+            }
+		
+	</script>
+	</script>
+	  <style>
+	    .buttons {
+	      position: absolute;
+	      bottom: 0;
+	      left: 0;
+	      width: 100%;
+	      height: 5em;
+	      display: flex;
+	      justify-content: center;
+	      align-items: center;
+	      z-index: 10;
+	    }
+
+	    .say-hi-button {
+	      padding: 0.25em;
+	      border-radius: 4px;
+	      border: none;
+	      background: white;
+	      color: black;
+	      width: 6em;
+	      height: 2em;
+	    }
+	    a {
+        	display: block;
+            color: lightgray;
+        }
+  </style>
+</header>
+<body>
+	<div class="buttons">
+      	<button class="say-hi-button" id="zoomOut" onclick="Alejar();">Zoom-</button>
+     	<button class="say-hi-button" id="zoomIn" onclick="Acercar();">Zoom+</button>
+     	<button class="say-hi-button" id="getLocation" onclick="getLocation();">Loc</button>
+     	<a id="Coordenadas"></a>      	
+    </div>
+
+	<a-scene embedded arjs="trackingMethod: best; debugUIEnabled: false;" vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" device-orientation-permission-ui="enabled: false">
+		<!--a-marker type='pattern' preset="hiro" markerhandler>
+			<a-entity id="obj1" position="0 0 0" scale="0.3 0.3 0.3">
+				<a-dodecahedron color="#FF926B" radius="1" gps-entity-place="latitude: 20.988149; longitude: -101.288665"></a-dodecahedron>
+			<a-text
+                value="This content will always face you."
+               
+                scale="50 50 50"
+                gps-entity-place="latitude: 20.988142; longitude: -101.288544">
+            </a-text>
+		</a-marker-->		
+			<a-entity>
+				<a-box scale="15 15 15" position="0 200 0"  gps-entity-place="latitude: 20.988142; longitude: -101.288544"></a-box>
+			 
+		<a-entity gps-camera rotation-reader></a-entity>
+	</a-scene>
+</body>
+</html>
